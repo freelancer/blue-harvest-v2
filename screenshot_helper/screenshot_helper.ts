@@ -36,7 +36,7 @@ export async function compareScreenshot(data, golden, outputFolder = undefined, 
     looksSame(screenshotPath, golden, {
       ...{
         strict: false,
-          tolerance: 2.5,
+          tolerance: 5.0,
       },
       ...looksSameOptions,
     }, async (error, equal) => {
