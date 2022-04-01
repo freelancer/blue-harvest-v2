@@ -971,8 +971,8 @@ var browserSideFind = function(locators, opt_options) {
 
   const scrollToHtmlElement = function(element) {
     const actions = getScrollActions(element, {
-      scrollMode: 'if-needed',
-      block: 'center',
+      scrollMode: 'always',
+      block: 'start',
       inline: 'nearest',
     });
     actions.forEach(({ el, top, left }) => {
