@@ -18,6 +18,7 @@ import {BrowserSideOptions, retryingFind} from './find';
 import {FlexibleLocator, Position, PositionalLocator} from './locator_types';
 import {log} from './logger';
 
+const FAST_FIND_TIMEOUT = 1 * 1000;
 const FIND_TIMEOUT = 30 * 1000;
 const SLOW_FIND_TIMEOUT = 90 * 1000;
 const AGONIZINGLY_SLOW_FIND_TIMEOUT = 10 * 60 * 1000;
@@ -43,6 +44,7 @@ interface Timing {
  * Don't use this directly.
  */
 export enum Slowness {
+  FAST,
   REGULAR,
   SLOW,
   AGONIZINGLY_SLOW,
@@ -52,6 +54,7 @@ export enum Slowness {
  * Map between slowness and what that actually means.
  */
 const SLOWNESS_MAP = new Map<Slowness, Timing>([
+  [Slowness.FAST, {description: 'fast.', timeout: FAST_FIND_TIMEOUT}],
   [Slowness.REGULAR, {description: '', timeout: FIND_TIMEOUT}],
   [Slowness.SLOW, {description: 'slow.', timeout: SLOW_FIND_TIMEOUT}],
   [
@@ -59,7 +62,7 @@ const SLOWNESS_MAP = new Map<Slowness, Timing>([
       description: 'agonizinglySlow.',
       timeout: AGONIZINGLY_SLOW_FIND_TIMEOUT
     }
-  ]
+  ],
 ]);
 
 /**
@@ -355,6 +358,8 @@ export const mouseOver = baseAction.mouseOver.bind(baseAction) as (locator: Flex
 export const uploadFile = baseAction.uploadFile.bind(baseAction) as (filepath: string) => Promise<void>;
 
 export const not = baseAction.not as {see: (locator: FlexibleLocator, options?: BrowserSideOptions) => Promise<boolean>};
+
+export const fast = new ChainedAction(defaultAction.setSlow(Slowness.FAST));
 
 export const slow = new ChainedAction(defaultAction.setSlow(Slowness.SLOW));
 
