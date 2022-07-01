@@ -1,6 +1,6 @@
 {
   "name": "@freelancercom/blue-harvest",
-  "version": "0.3.1-fork.34",
+  "version": "0.3.1-fork.35",
   "description": "protractor helpers",
   "scripts": {
     "tsc": "tsc",
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/angular-seattle/blue-harvest#readme",
   "dependencies": {
     "looks-same": "^3.3.0",
-    "protractor": "npm:@freelancercom/protractor@6.0.0-fork.2"
+    "protractor": "npm:@freelancercom/protractor@6.0.0-fork.4"
   },
   "devDependencies": {
     "@types/node": "^12.13.0",
