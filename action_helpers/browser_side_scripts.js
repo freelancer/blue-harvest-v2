@@ -247,20 +247,6 @@ var browserSideFind = function(locators, opt_options) {
       var maybeDisplayed = all.filter(isMaybeDisplayed);
       if (maybeDisplayed.length === 1 && shouldAutoScroll(maybeDisplayed[0])) {
         scrollToHtmlElement(maybeDisplayed[0]);
-        // Sticky headers can stack so get all active and compute total height.
-        var stickyHeaders = document.querySelectorAll('[data-testing="sticky-header"]');
-        var stickyHeaderTotalHeight = 0;
-        stickyHeaders.forEach(function(stickyHeader) {
-          const headerHeight = stickyHeader.getBoundingClientRect().height;
-          stickyHeaderTotalHeight += headerHeight;
-        });
-        if (stickyHeaderTotalHeight &&
-          maybeDisplayed[0].getBoundingClientRect().top < stickyHeaderTotalHeight) {
-          var scrollY = window.scrollY;
-          if (scrollY) {
-            window.scroll(0, scrollY - stickyHeaderTotalHeight);
-          }
-        }
         if (hasCorrectDisplayStatus(maybeDisplayed[0])) {
           candidateElements = maybeDisplayed;
         }
@@ -799,13 +785,20 @@ var browserSideFind = function(locators, opt_options) {
         targetRight = _a.right,
         targetBottom = _a.bottom,
         targetLeft = _a.left;
+    // Sticky headers can stack so get all active and compute total height.
+    var stickyHeaders = document.querySelectorAll('[data-testing="sticky-header"]');
+    var stickyHeaderTotalHeight = 0;
+    stickyHeaders.forEach(function(stickyHeader) {
+      const headerHeight = stickyHeader.getBoundingClientRect().height;
+      stickyHeaderTotalHeight += headerHeight;
+    });
     // These values mutate as we loop through and generate scroll coordinates
     var targetBlock =
         block === 'start' || block === 'nearest'
-            ? targetTop
+            ? targetTop - stickyHeaderTotalHeight
             : block === 'end'
-                ? targetBottom
-                : targetTop + targetHeight / 2; // block === 'center
+                ? targetBottom - stickyHeaderTotalHeight
+                : (targetTop - stickyHeaderTotalHeight) + targetHeight / 2; // block === 'center
     var targetInline =
         inline === 'center'
             ? targetLeft + targetWidth / 2
