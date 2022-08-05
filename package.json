@@ -1,6 +1,6 @@
 {
   "name": "@freelancercom/blue-harvest",
-  "version": "0.3.1-fork.35",
+  "version": "0.3.1-fork.36",
   "description": "protractor helpers",
   "scripts": {
     "tsc": "tsc",
