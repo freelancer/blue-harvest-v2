@@ -261,6 +261,11 @@ export class ChainedAction {
         //   await browser.actions().click(response).perform();
         await browser.actions().move({origin: response}).perform();
         await browser.actions().click().perform();
+
+        // Don't leave the mouse on a clickable element because there
+        // might be a hover event implemented on the element that triggers
+        // the event and causes unwanted test results.
+        await browser.actions().move({x: 0, y: 0}).perform();
       } else {
         throw e;
       }
