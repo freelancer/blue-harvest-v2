@@ -1032,6 +1032,8 @@ var browserSideLocator = function(locator) {
     return {using: 'regexp', value: locator.toString()};
   if (locator && (locator.using == 'css selector' || locator.using == 'xpath'))
     return {using: locator.using, value: locator.value};
+  if (locator && (locator.using == 'tag name'))
+    return {using: 'css selector', value: locator.value};
   throw new Error(
       'Only text, number, RegExp, by.css() and by.xpath() are supported by ' +
       'helpers, sorry: ' + locator);
