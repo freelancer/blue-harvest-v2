@@ -90,7 +90,7 @@ var browserSideFind = function(locators, opt_options) {
         parts.length > 1 ? 'concat(' + parts.join(',') + ')' : parts[0];
     var inputsFound =
         byXPath(
-            '//input[@type="text" or @type="number" or not(@type)] | ' +
+            '//input[not(@type) or (@type!="checkbox" and @type!="file" and @type!="radio" and @type!="hidden")] | ' +
             '//textarea')
             .filter(function(e) {
               return e.value == locator;
